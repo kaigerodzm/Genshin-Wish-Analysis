@@ -1,81 +1,81 @@
 # Genshin Wish Analysis
 
-Analisis 7.000+ data gacha Genshin Impact (2021–2026) dengan Python untuk menguji soft pity, win rate 50/50, dan nilai setara rupiah per bintang 5.
+Analysis of 7,000+ Genshin Impact gacha records (2021–2026) with Python to test soft pity, the 50/50 win rate, and the rupiah-equivalent value of a 5-star.
 
-## Latar belakang
+## Background
 
-Genshin Impact memakai sistem *gacha*: setiap "pull" adalah undian berbayar (160 Primogem). Menurut informasi resmi, peluang dasar mendapat item bintang 5 di banner karakter adalah 0,6%, dengan jaminan bintang 5 paling lambat di pull ke-90. Komunitas pemain percaya ada **soft pity**, yaitu peluang yang naik drastis sekitar pull ke-74, tapi angka ini tidak dijelaskan secara rinci oleh developer.
+Genshin Impact uses a *gacha* system: each "pull" is a paid random draw (160 Primogems). According to official information, the base rate for a 5-star item on the character banner is 0.6%, with a guaranteed 5-star by pull 90. Players widely believe in **soft pity**, a sharp rise in the odds around pull 74, but the developer does not publish the exact numbers.
 
-Proyek ini memakai riwayat wish pribadi untuk menguji apakah pola tersebut benar-benar terlihat di data.
+This project uses my personal wish history to test whether that pattern actually shows up in real data.
 
-## Pertanyaan analisis
+## Questions
 
-1. Berapa rata-rata pull yang dibutuhkan untuk mendapat bintang 5?
-2. Apakah soft pity terlihat di data nyata?
-3. Seberapa sering menang atau kalah 50/50?
-4. Bagaimana pola pull dari waktu ke waktu?
-5. Berapa nilai setara rupiah untuk satu bintang 5?
+1. How many pulls does it take on average to get a 5-star?
+2. Is soft pity visible in real data?
+3. How often is the 50/50 won or lost?
+4. How has pulling behaviour changed over time?
+5. What is the rupiah-equivalent value of one 5-star?
 
 ## Data
 
-- **Sumber:** riwayat wish satu akun, diekspor dari [paimon.moe](https://paimon.moe) (data sekunder)
-- **Periode:** Oktober 2021 – November 2026
-- **Ukuran:** 7.115 pull (banner karakter 4.593, senjata 1.660, standard 862)
-- **Kualitas:** tidak ada nilai kosong; pity yang dihitung ulang sudah divalidasi terhadap kolom pity bawaan paimon.moe
+- **Source:** wish history from one account, exported from [paimon.moe](https://paimon.moe) (secondary data)
+- **Period:** October 2021 – November 2026
+- **Size:** 7,115 pulls (character banner 4,593, weapon 1,660, standard 862)
+- **Quality:** no missing values; recalculated pity counts were validated against paimon.moe's own pity column
 
-File data mentah tidak disertakan di repository ini karena berisi data akun pribadi.
+The raw data file is not included in this repository because it contains personal account data.
 
-## Temuan utama
+## Key findings
 
-**1. Soft pity terkonfirmasi.** Di pull 1–73, peluang bintang 5 hanya **0,66%**, sangat dekat dengan angka resmi 0,6%. Mulai pull ke-74, peluangnya melonjak menjadi **sekitar 23%** per pull.
+**1. Soft pity is confirmed.** For pulls 1–73, the 5-star probability is only **0.66%**, very close to the official 0.6%. From pull 74 onward, it jumps to **about 23%** per pull.
 
-![Peluang bintang 5 per pull](hazard_rate.png)
+![5-star probability per pull](hazard_rate.png)
 
-**2. Mayoritas bintang 5 keluar di soft pity.** Rata-rata dibutuhkan **60 pull** per bintang 5 (median 76), dan **62%** bintang 5 keluar di pull ke-74 atau lebih.
+**2. Most 5-stars drop during soft pity.** It took **60 pulls** per 5-star on average (median 76), and **62%** of 5-stars dropped at pull 74 or later.
 
-![Distribusi pity bintang 5](pity_distribution.png)
+![5-star pity distribution](pity_distribution.png)
 
-**3. Win rate 50/50 sebesar 54%** (28 menang, 24 kalah), sesuai dengan mekanisme peluang sekitar 50%.
+**3. The 50/50 win rate is 54%** (28 won, 24 lost), consistent with a roughly 50% mechanic.
 
-![Hasil 50/50](fifty_fifty.png)
+![50/50 outcomes](fifty_fifty.png)
 
-**4. Nilai setara rupiah.** Dengan harga top-up sekitar Rp32.257 per pull, satu bintang 5 di banner karakter bernilai setara **±Rp1,95 juta**.
+**4. Rupiah-equivalent value.** At about Rp32,257 per pull (based on top-up prices), one character-banner 5-star is worth roughly **Rp1.95 million**.
 
-![Jumlah pull per kuartal](pulls_over_time.png)
+![Pulls per quarter](pulls_over_time.png)
 
-## Implikasi
+## Implications
 
-- Bagi pemain, menyimpan sumber daya sampai minimal **75–80 pull** jauh lebih realistis untuk mendapat bintang 5 daripada berharap pada peluang dasar.
-- Dari sisi bisnis, desain soft pity membuat sebagian besar hadiah utama baru keluar setelah pemain berinvestasi cukup banyak. Ini mendorong pemain menabung atau melakukan top-up menjelang banner karakter favorit.
+- For players, saving at least **75–80 pulls** is a far more realistic plan for getting a 5-star than relying on the base rate.
+- From a business perspective, the soft-pity design means most premium rewards only appear after significant player investment. This encourages players to save resources or top up ahead of the banners they want.
 
-## Metode
+## Method
 
-- **Cleaning:** menggabungkan tiga sheet banner, menyeragamkan nama kolom, mengubah tipe tanggal, dan menghitung ulang pity per pull.
-- **Hazard rate:** peluang bintang 5 di pull ke-n, dengan syarat belum mendapat bintang 5 sebelumnya.
-- **Klasifikasi 50/50:** bintang 5 dianggap "kalah" jika karakter standard; daftar standard memperhitungkan tanggal masuk karakter (Tighnari v3.1, Dehya v3.6, Yumemizuki Mizuki v5.5).
+- **Cleaning:** combined three banner sheets, standardised column names, converted date types, and recalculated pity for every pull.
+- **Hazard rate:** the probability of a 5-star at pull n, given that no 5-star has appeared before it.
+- **50/50 classification:** a 5-star counts as "lost" if it is a standard character; the standard list accounts for when each character joined the pool (Tighnari v3.1, Dehya v3.6, Yumemizuki Mizuki v5.5).
 
 ## Tools
 
 Python (pandas, NumPy, Matplotlib), Google Colab
 
-## Keterbatasan
+## Limitations
 
-- Data hanya dari satu akun, sehingga hasilnya belum tentu mewakili seluruh pemain.
-- Status 50/50 disimpulkan dari daftar karakter standard. Mekanisme *Capturing Radiance* (sejak v5.0) tidak terlihat langsung di data.
-- Nilai rupiah adalah estimasi berdasarkan harga top-up, bukan pengeluaran sebenarnya.
+- Data comes from a single account, so results may not represent all players.
+- 50/50 status is inferred from the standard character list. The *Capturing Radiance* mechanic (since v5.0) is not directly visible in the data.
+- Rupiah values are estimates based on top-up prices, not actual spending.
 
-## Pengembangan selanjutnya
+## Next steps
 
-- Membandingkan dengan dataset komunitas yang lebih besar
-- Uji statistik (binomial test) untuk win rate 50/50
-- Analisis banner senjata (Epitomized Path)
+- Compare with a larger community dataset
+- Statistical test (binomial test) for the 50/50 win rate
+- Analyse the weapon banner (Epitomized Path)
 
-## File
+## Files
 
-| File | Isi |
+| File | Contents |
 |---|---|
-| `analisis_wish_genshin.ipynb` | Notebook analisis lengkap |
-| `*.png` | Grafik hasil analisis |
+| `analisis_wish_genshin.ipynb` | Full analysis notebook |
+| `*.png` | Analysis charts |
 
 ---
-*Dibuat oleh Danish Ziaurrahman Muhammad*
+*Created by Danish Ziaurrahman Muhammad*
